@@ -1,0 +1,6 @@
+node_modules
+.expo
+.sf
+dist
+coverage
+src/games/data/*.json

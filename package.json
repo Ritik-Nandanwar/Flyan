@@ -1,0 +1,33 @@
+{
+  "name": "flyan",
+  "version": "1.0.0",
+  "private": true,
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start --go",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/*.test.cjs",
+    "format": "prettier --write App.tsx \"src/**/*.{ts,tsx}\" \"tests/**/*.cjs\" *.js *.json README.md docs/*.md",
+    "format:check": "prettier --check App.tsx \"src/**/*.{ts,tsx}\" \"tests/**/*.cjs\" *.js *.json README.md docs/*.md"
+  },
+  "dependencies": {
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "babel-preset-expo": "~58.0.0",
+    "expo": "^58.0.19",
+    "firebase": "^13.1.0",
+    "react": "19.3.0",
+    "react-native": "0.88.0",
+    "react-native-screens": "~4.30.0",
+    "react-native-svg": "15.16.0"
+  },
+  "devDependencies": {
+    "@types/react": "~19.3.0",
+    "eslint": "^9.0.0",
+    "eslint-config-expo": "~58.0.4",
+    "prettier": "^3.9.10",
+    "typescript": "~6.0.3"
+  }
+}
