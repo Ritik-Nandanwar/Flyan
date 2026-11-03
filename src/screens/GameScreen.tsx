@@ -14,6 +14,7 @@ import { Label } from "../components/ui/Label";
 import { SudokuBoard } from "../components/games/SudokuBoard";
 import { WordPuzzle } from "../components/games/WordPuzzle";
 import { WorldleGame } from "../components/games/WorldleGame";
+import { GameHelpPanel } from "../components/games/GameHelpPanel";
 import { FEATURE_FLAGS } from "../config/featureFlags";
 import { GAME_LOGOS } from "../config/gameAssets";
 import { GAME_LABELS } from "../config/gameConstants";
@@ -125,7 +126,7 @@ export function GameScreen({
               label="i"
               accessibilityLabel={`How to play ${GAME_LABELS[selected]}`}
               style={s.infoButton}
-              onPress={() => setHelpVisible(true)}
+              onPress={() => setHelpVisible((visible) => !visible)}
             />
           )}
         </View>
@@ -139,6 +140,12 @@ export function GameScreen({
         </View>
         {screen === "result" ? (
           <ScrollView style={s.flexFill} contentContainerStyle={s.gameContent}>
+            {helpVisible && (
+              <GameHelpPanel
+                game={selected}
+                onClose={() => setHelpVisible(false)}
+              />
+            )}
             <Card
               style={[
                 s.resultCard,
@@ -215,6 +222,12 @@ export function GameScreen({
                 s.wordGameContent,
             ]}
           >
+            {helpVisible && (
+              <GameHelpPanel
+                game={selected}
+                onClose={() => setHelpVisible(false)}
+              />
+            )}
             {(selected === "wordle" || selected === "verticle") && (
               <WordPuzzle
                 variant={selected}
@@ -253,25 +266,6 @@ export function GameScreen({
           </ScrollView>
         )}
         <Modal
-          visible={helpVisible}
-          transparent
-          animationType="fade"
-          statusBarTranslucent
-          onRequestClose={() => setHelpVisible(false)}
-        >
-          <View style={s.errorOverlay}>
-            <View style={s.errorDialog}>
-              <Text style={s.errorTitle}>{GAME_LABELS[selected]} RULES</Text>
-              <Text style={s.replayBody}>{getHelpText(selected)}</Text>
-              <Button
-                label="GOT IT"
-                style={s.helpCloseButton}
-                onPress={() => setHelpVisible(false)}
-              />
-            </View>
-          </View>
-        </Modal>
-        <Modal
           visible={selected === "sudoku" && sudokuErrorCountdown !== null}
           transparent
           animationType="fade"
@@ -294,18 +288,4 @@ export function GameScreen({
 /** Formats elapsed game time as MM:SS. */
 function formatTime(totalSeconds: number): string {
   return `${String(Math.floor(totalSeconds / 60)).padStart(2, "0")}:${String(totalSeconds % 60).padStart(2, "0")}`;
-}
-
-/** Provides concise rules text for the selected game. */
-function getHelpText(game: GameType): string {
-  if (game === "sudoku") {
-    return "Fill the random 6×6 board. Each row, column and 2×3 box uses digits 1–6.";
-  }
-  if (game === "verticle") {
-    return "Enter five-letter guesses. Green is exact, yellow is in the word, and grey is absent.";
-  }
-  if (game === "wordle") {
-    return "Keep guessing the five-letter word. Green is exact, yellow is in the word, and grey is absent.";
-  }
-  return "Name the country. Each wrong guess shows distance and direction to the answer.";
 }
