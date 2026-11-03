@@ -53,6 +53,7 @@ export function FeedbackKey({
         <Text
           style={[
             s.keyText,
+            label === "I" && s.capitalIKeyText,
             label === "Enter" && s.keyTextAction,
             mark && s.keyTextMarked,
           ]}

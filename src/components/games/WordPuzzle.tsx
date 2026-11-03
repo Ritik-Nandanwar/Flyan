@@ -100,6 +100,14 @@ export function WordPuzzle({
 /** Renders one letter using the shared Wordle typography. */
 function TextLetter({ letter, marked }: { letter: string; marked: boolean }) {
   return (
-    <Text style={[s.letterText, marked && s.letterTextMarked]}>{letter}</Text>
+    <Text
+      style={[
+        s.letterText,
+        letter === "I" && s.capitalIText,
+        marked && s.letterTextMarked,
+      ]}
+    >
+      {letter}
+    </Text>
   );
 }
