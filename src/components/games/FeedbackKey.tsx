@@ -3,6 +3,7 @@ import { Animated, Pressable, Text } from "react-native";
 import { useFeedbackColor } from "../../hooks/useFeedbackColor";
 import { Mark } from "../../games/engines";
 import { s } from "../../theme/styles";
+import { VisibleLetter } from "./VisibleLetter";
 
 /** Keyboard key that animates to its highest-priority letter feedback color. */
 export function FeedbackKey({
@@ -50,15 +51,19 @@ export function FeedbackKey({
           { transform: [{ scale: pressScale }] },
         ]}
       >
-        <Text
-          style={[
-            s.keyText,
-            label === "Enter" && s.keyTextAction,
-            mark && s.keyTextMarked,
-          ]}
-        >
-          {label}
-        </Text>
+        {label === "I" ? (
+          <VisibleLetter value={label} size="key" />
+        ) : (
+          <Text
+            style={[
+              s.keyText,
+              label === "Enter" && s.keyTextAction,
+              mark && s.keyTextMarked,
+            ]}
+          >
+            {label}
+          </Text>
+        )}
       </Animated.View>
     </Pressable>
   );

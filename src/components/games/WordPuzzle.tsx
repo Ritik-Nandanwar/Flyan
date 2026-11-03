@@ -1,11 +1,12 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { FeedbackCell } from "./FeedbackCell";
 import { FeedbackKey } from "./FeedbackKey";
 import { Button } from "../ui/Button";
 import { s } from "../../theme/styles";
 import { FEATURE_FLAGS } from "../../config/featureFlags";
 import { keyboardFeedback, Mark } from "../../games/engines";
+import { VisibleLetter } from "./VisibleLetter";
 
 export type WordPuzzleVariant = "wordle" | "verticle";
 
@@ -99,9 +100,5 @@ export function WordPuzzle({
 
 /** Renders one letter using the shared Wordle typography. */
 function TextLetter({ letter, marked }: { letter: string; marked: boolean }) {
-  return (
-    <View>
-      <Text style={[s.letterText, marked && s.letterTextMarked]}>{letter}</Text>
-    </View>
-  );
+  return <VisibleLetter value={letter} marked={marked} />;
 }
