@@ -21,8 +21,13 @@ export const WORDS = FIVE_LETTER_WORDS;
 const WORD_SET = new Set<string>(WORDS);
 export const COUNTRIES = COUNTRY_DATA as Country[];
 const COUNTRIES_WITH_SILHOUETTES = COUNTRIES.filter((country) =>
-  country.path.trim(),
+  hasVisibleSilhouette(country),
 );
+
+/** Filters out empty and degenerate source polygons that render as tiny specks. */
+function hasVisibleSilhouette(country: Country): boolean {
+  return country.path.trim().length >= 250;
+}
 
 /** Checks whether a value is present in the bundled five-letter dictionary. */
 export function isFiveLetterWord(word: string): boolean {
@@ -55,7 +60,7 @@ export function verticleAnswerForDate(puzzleDate: string): string {
   return WORDS[verticleIndex].toUpperCase();
 }
 
-/** Selects the same bundled country for a given archive or daily date. */
+/** Selects a country with a visible bundled outline for a given puzzle date. */
 export function countryForDate(puzzleDate: string): Country {
   return COUNTRIES_WITH_SILHOUETTES[
     seededIndex(
@@ -65,13 +70,15 @@ export function countryForDate(puzzleDate: string): Country {
   ];
 }
 
-/** Resolves legacy Worldle answers without outline data to a drawable country. */
+/** Resolves legacy Worldle answers with missing or unusable outlines. */
 export function countryForAnswer(
   answer: string | undefined,
   puzzleDate: string,
 ): Country {
   const savedCountry = COUNTRIES.find((country) => country.name === answer);
-  return savedCountry?.path.trim() ? savedCountry : countryForDate(puzzleDate);
+  return savedCountry && hasVisibleSilhouette(savedCountry)
+    ? savedCountry
+    : countryForDate(puzzleDate);
 }
 
 /** Scores exact and misplaced letters while accounting for duplicates. */

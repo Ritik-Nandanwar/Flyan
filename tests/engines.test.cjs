@@ -78,15 +78,15 @@ test("Worldle always selects a country with a silhouette and repairs legacy answ
   for (const date of datesToCheck) {
     const country = engine.countryForDate(date);
     assert.ok(
-      country.path.trim(),
-      `${country.name} should have a drawable path`,
+      country.path.trim().length >= 250,
+      `${country.name} should have a visible outline`,
     );
     assert.equal(engine.countryForDate(date).name, country.name);
   }
 
-  const legacyCountry = engine.countryForAnswer("Norfolk Island", "2026-11-03");
+  const legacyCountry = engine.countryForAnswer("Kiribati", "2026-11-03");
   assert.equal(legacyCountry.name, engine.countryForDate("2026-11-03").name);
-  assert.ok(legacyCountry.path.trim());
+  assert.ok(legacyCountry.path.trim().length >= 250);
 });
 
 test("word scoring handles exact, misplaced, absent, and duplicate letters", () => {
