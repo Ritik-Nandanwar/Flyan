@@ -73,6 +73,22 @@ test("date-based word answers are stable valid five-letter words", () => {
   assert.equal(engine.isFiveLetterWord(first), true);
 });
 
+test("Worldle always selects a country with a silhouette and repairs legacy answers", () => {
+  const datesToCheck = ["2026-11-03", "2026-11-04", "2026-10-27", "2025-01-01"];
+  for (const date of datesToCheck) {
+    const country = engine.countryForDate(date);
+    assert.ok(
+      country.path.trim(),
+      `${country.name} should have a drawable path`,
+    );
+    assert.equal(engine.countryForDate(date).name, country.name);
+  }
+
+  const legacyCountry = engine.countryForAnswer("Norfolk Island", "2026-11-03");
+  assert.equal(legacyCountry.name, engine.countryForDate("2026-11-03").name);
+  assert.ok(legacyCountry.path.trim());
+});
+
 test("word scoring handles exact, misplaced, absent, and duplicate letters", () => {
   assert.deepEqual(engine.scoreWord("ALLEY", "APPLE"), [
     "correct",

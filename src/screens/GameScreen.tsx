@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import {
-  Alert,
   Image,
   KeyboardAvoidingView,
   Modal,
@@ -21,6 +20,7 @@ import { GAME_LABELS } from "../config/gameConstants";
 import { Attempt } from "../types/app";
 import {
   answerForDate,
+  countryForAnswer,
   COUNTRIES,
   GameType,
   verticleAnswerForDate,
@@ -76,8 +76,11 @@ export function GameScreen({
   onReplay,
 }: GameScreenProps) {
   const country = attempt.answer
-    ? COUNTRIES.find((item) => item.name === attempt.answer)
-    : undefined;
+    ? countryForAnswer(attempt.answer, attempt.date)
+    : selected === "worldle"
+      ? countryForAnswer(undefined, attempt.date)
+      : undefined;
+  const [helpVisible, setHelpVisible] = useState(false);
 
   const avoidKeyboard = selected === "worldle" && screen === "game";
 
@@ -119,13 +122,10 @@ export function GameScreen({
           {FEATURE_FLAGS.gameHelp && (
             <Button
               small
-              label="?"
-              onPress={() =>
-                Alert.alert(
-                  `${GAME_LABELS[selected]} RULES`,
-                  getHelpText(selected),
-                )
-              }
+              label="i"
+              accessibilityLabel={`How to play ${GAME_LABELS[selected]}`}
+              style={s.infoButton}
+              onPress={() => setHelpVisible(true)}
             />
           )}
         </View>
@@ -178,7 +178,7 @@ export function GameScreen({
               {selected === "worldle" && attempt.status === "lost" && (
                 <Text style={s.body}>
                   The country was{" "}
-                  <Text style={s.answerTextRegular}>{attempt.answer}</Text>
+                  <Text style={s.answerTextRegular}>{country?.name}</Text>
                 </Text>
               )}
             </Card>
@@ -252,6 +252,25 @@ export function GameScreen({
             )}
           </ScrollView>
         )}
+        <Modal
+          visible={helpVisible}
+          transparent
+          animationType="fade"
+          statusBarTranslucent
+          onRequestClose={() => setHelpVisible(false)}
+        >
+          <View style={s.errorOverlay}>
+            <View style={s.errorDialog}>
+              <Text style={s.errorTitle}>{GAME_LABELS[selected]} RULES</Text>
+              <Text style={s.replayBody}>{getHelpText(selected)}</Text>
+              <Button
+                label="GOT IT"
+                style={s.helpCloseButton}
+                onPress={() => setHelpVisible(false)}
+              />
+            </View>
+          </View>
+        </Modal>
         <Modal
           visible={selected === "sudoku" && sudokuErrorCountdown !== null}
           transparent

@@ -4,6 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { onAuthStateChanged, User } from "firebase/auth";
 import {
   answerForDate,
+  countryForAnswer,
   verticleAnswerForDate,
   COUNTRIES,
   GameType,
@@ -512,8 +513,7 @@ function App() {
       );
       return;
     }
-    const target = COUNTRIES.find((c) => c.name === active.answer);
-    if (!target) return;
+    const target = countryForAnswer(active.answer, active.date);
     const next = {
       ...active,
       guesses: [...active.guesses, guess.name],

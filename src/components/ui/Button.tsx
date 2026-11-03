@@ -5,6 +5,7 @@ import { s } from "../../theme/styles";
 /** Standard Flyan action button with optional inverse, compact, and disabled states. */
 export function Button({
   label,
+  accessibilityLabel,
   onPress,
   invert = false,
   small = false,
@@ -13,6 +14,7 @@ export function Button({
   style,
 }: {
   label: string;
+  accessibilityLabel?: string;
   onPress: () => void;
   invert?: boolean;
   small?: boolean;
@@ -23,6 +25,7 @@ export function Button({
   return (
     <Pressable
       accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel ?? label}
       accessibilityState={{ disabled }}
       disabled={disabled}
       onPress={onPress}

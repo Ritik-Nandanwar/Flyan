@@ -224,6 +224,15 @@ export const s = StyleSheet.create({
     borderWidth: 2,
   },
   smallButtonText: { fontSize: 11 },
+  infoButton: {
+    width: 44,
+    minHeight: 44,
+    paddingHorizontal: 0,
+    borderWidth: 2,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  helpCloseButton: { alignSelf: "stretch", marginTop: 20 },
   topline: {
     flexDirection: "row",
     justifyContent: "space-between",
