@@ -658,10 +658,10 @@ export const s = StyleSheet.create({
     justifyContent: "center",
   },
   dayEmpty: { width: "14.28%", aspectRatio: 1 },
-  dayActive: { backgroundColor: C.ink },
+  dayActive: { backgroundColor: "#DADADA", borderRadius: 19 },
   dayDisabled: { opacity: 0.35 },
   dayText: { fontSize: 15, fontWeight: "700" },
-  dayTextActive: { color: C.paper },
+  dayTextActive: { color: C.ink },
   dayTextFuture: { color: C.gray, fontSize: 15, fontWeight: "700" },
   archiveRow: {
     paddingTop: 15,
